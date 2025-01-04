@@ -23,7 +23,7 @@
         <tr v-for="product in paginatedProducts" :key="product.id" class="table-row">
           <td class="wrap-text">{{ product.serialNumber }}</td>
           <td>
-            <img
+            <NuxtImg
                 v-if="product.photo"
                 :src="product.photo"
                 :alt="product.title"

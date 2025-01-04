@@ -11,38 +11,43 @@
         @mouseover="isHovered = true"
         @mouseleave="isHovered = false"
     >
-      <div class="order-item__data d-flex flex-column p-3">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h3 class="h5 mb-0">{{ order.name }}</h3>
-          <button
-              class="btn btn-danger btn-sm"
-              @click.stop="deleteOrder(order)"
-          >
-            Delete
-          </button>
+      <div class="order-item__details">
+        <div class="order-item__data d-flex flex-column p-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="h5 mb-0">{{ order.name }}</h3>
+            <button
+                class="btn btn-danger btn-sm"
+                @click.stop="deleteOrder(order)"
+            >
+              Delete
+            </button>
+          </div>
+          <div v-if="order.description" class="d-flex flex-column my-1">
+            <div class="text-muted small fw-bold">Description:</div>
+            <div class="text-muted small">{{ order.description }}</div>
+          </div>
+          <div class="text-muted small">
+            <div>
+              <span class="fw-bold">Created:</span>
+              {{ formatDate(order.date, 'dd MMM yyyy') }}
+              /
+              {{ formatDate(order.date, 'yyyy-MM-dd HH:mm') }}
+            </div>
+            <div>
+              <span class="fw-bold">Products:</span> {{ order.products.length }}
+            </div>
+            <div v-if="!loading">
+              <span class="fw-bold">Total:</span>
+              ${{ total?.usd.toFixed(2) || '...' }} /
+              ₴{{ total?.uah.toFixed(2) || '...' }}
+            </div>
+            <div v-else>
+              <span>Loading total...</span>
+            </div>
+          </div>
         </div>
-        <div v-if="order.description" class="d-flex flex-column my-1">
-          <div class="text-muted small fw-bold">Description:</div>
-          <div class="text-muted small">{{ order.description }}</div>
-        </div>
-        <div class="text-muted small">
-          <div>
-            <span class="fw-bold">Created:</span>
-            {{ formatDate(order.date, 'dd MMM yyyy') }}
-            /
-            {{ formatDate(order.date, 'yyyy-MM-dd HH:mm') }}
-          </div>
-          <div>
-            <span class="fw-bold">Products:</span> {{ order.products.length }}
-          </div>
-          <div v-if="!loading">
-            <span class="fw-bold">Total:</span>
-            ${{ total?.usd.toFixed(2) || '...' }} /
-            ₴{{ total?.uah.toFixed(2) || '...' }}
-          </div>
-          <div v-else>
-            <span>Loading total...</span>
-          </div>
+        <div v-if="isActive" class="order-item__active">
+          <i class="order-item__arrow bi bi-caret-right-fill"></i>
         </div>
       </div>
     </div>
@@ -133,9 +138,27 @@ const deleteOrder = (order: any) => {
       width: 50%;
     }
 
+    &__details {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      @media (min-width: 768px) {
+        flex-direction: row;
+        width: 100%;
+      }
+    }
+
     &__data {
-      width: 90%;
+      width: 100%;
       cursor: pointer;
+
+      @media (min-width: 768px) {
+        width: 90%;
+        height: 100%;
+      }
     }
 
     &__active {
@@ -148,6 +171,7 @@ const deleteOrder = (order: any) => {
 
       @media (min-width: 768px) {
         width: 10%;
+        height: 100%;
       }
     }
 
