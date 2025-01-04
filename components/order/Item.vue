@@ -21,21 +21,29 @@
             Delete
           </button>
         </div>
-        <div v-if="order.description" class="d-flex flex-column justify-content-lg-start my-1" aria-label="description">
+        <div v-if="order.description" class="d-flex flex-column my-1">
           <div class="text-muted small fw-bold">Description:</div>
           <div class="text-muted small">{{ order.description }}</div>
         </div>
         <div class="text-muted small">
-          <div><span class="fw-bold">Created:</span> {{ formatDate(order.date, 'dd MMM yyyy') }} / {{ formatDate(order.date, 'yyyy-MM-dd HH:mm') }}</div>
-          <div><span class="fw-bold">Products:</span> {{ order.products.length }}</div>
           <div>
-            <span class="fw-bold">Total:</span> ${{ calculateTotal(order).usd.toFixed(2) }} /
-            ₴{{ calculateTotal(order).uah.toFixed(2) }}
+            <span class="fw-bold">Created:</span>
+            {{ formatDate(order.date, 'dd MMM yyyy') }}
+            /
+            {{ formatDate(order.date, 'yyyy-MM-dd HH:mm') }}
+          </div>
+          <div>
+            <span class="fw-bold">Products:</span> {{ order.products.length }}
+          </div>
+          <div v-if="!loading">
+            <span class="fw-bold">Total:</span>
+            ${{ total?.usd.toFixed(2) || '...' }} /
+            ₴{{ total?.uah.toFixed(2) || '...' }}
+          </div>
+          <div v-else>
+            <span>Loading total...</span>
           </div>
         </div>
-      </div>
-      <div v-if="isActive" class="order-item__active">
-        <i class="order-item__arrow bi bi-caret-right-fill"></i>
       </div>
     </div>
 
@@ -49,9 +57,10 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { format } from 'date-fns';
-import { ref } from 'vue';
+import { ref, watch, onMounted } from 'vue';
+import { usePriceWorker } from '~/composables/usePriceWorker';
 
 const emit = defineEmits(['view-order', 'close-details', 'confirm-delete']);
 
@@ -65,27 +74,38 @@ const props = defineProps({
 const isHovered = ref(false);
 const isDeleting = ref(false);
 
-// Methods
-const formatDate = (date, formatStr) => format(new Date(date), formatStr);
+// Utility Methods
+const formatDate = (date: string, formatStr: string) => format(new Date(date), formatStr);
 
-const calculateTotal = (order) =>
-    order.products.reduce(
-        (acc, product) => {
-          const priceUSD = product.price.find((p) => p.symbol === 'USD')?.value || 0;
-          const priceUAH = product.price.find((p) => p.symbol === 'UAH')?.value || 0;
+// Price Calculation
+const { calculateTotal, loading } = usePriceWorker();
+const total = ref<{ usd: number; uah: number } | null>(null);
 
-          return {
-            usd: acc.usd + priceUSD,
-            uah: acc.uah + priceUAH,
-          };
-        },
-        { usd: 0, uah: 0 }
-    );
+// Watch for changes in the order and calculate the total
+watch(
+    () => props.order,
+    async (newOrder) => {
+      if (newOrder) {
+        try {
+          total.value = await calculateTotal(newOrder);
+        } catch (error) {
+          console.error('Error calculating total:', error);
+        }
+      }
+    },
+    { immediate: true }
+);
 
-const deleteOrder = (order) => {
-  emit('confirm-delete', order);
+// Delete Order
+const deleteOrder = (order: any) => {
+  isDeleting.value = true;
+  setTimeout(() => {
+    emit('confirm-delete', order);
+    isDeleting.value = false;
+  }, 500);
 };
 </script>
+
 
 <style scoped lang="scss">
 .order {

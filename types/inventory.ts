@@ -35,4 +35,5 @@ export interface InventoryState {
   products: Product[]
   productTypes: string[]
   isOpenMenu: boolean
+  selectedProductType: string
 }

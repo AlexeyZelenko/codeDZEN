@@ -10,22 +10,20 @@ const STORAGE_KEY = 'inventory';
 export const useInventoryStore = defineStore('inventory', {
   state: (): InventoryState =>
       getFromStorage<InventoryState>(STORAGE_KEY, {
-        orders: [
-          {
-            id: 1,
-            name: 'March Hardware Order',
-            date: '2024-03-15',
-            products: []
-          }
-        ],
+        orders: [],
         products: [],
         productTypes: ['Monitors', 'Laptops', 'Smartphones', 'Tablets', 'Accessories'],
-        isOpenMenu: false
+        isOpenMenu: false,
+        selectedProductType: '',
       }),
 
   actions: {
     toggleMenu() {
       this.isOpenMenu = !this.isOpenMenu;
+    },
+
+    setSelectedProductType(type: string) {
+      this.selectedProductType = type;
     },
 
     async addProduct(product: Omit<Product, 'id'>): Promise<Product> {
@@ -151,12 +149,10 @@ export const useInventoryStore = defineStore('inventory', {
             await deleteFile(filePath);
             console.log(`Файл изображения "${filePath}" успешно удален.`);
           } catch (error) {
-            console.error('Ошибка при удалении файла изображения:', error);
-            throw new Error('Не удалось удалить файл изображения.');
+            console.warn('Не удалось удалить файл изображения:', error);
           }
         }
 
-        // Удаление продукта из Firestore
         const productsRef = collection(db, 'products');
         const q = query(productsRef, where('id', '==', productId));
         const querySnapshot = await getDocs(q);
@@ -189,7 +185,6 @@ export const useInventoryStore = defineStore('inventory', {
           text: error instanceof Error ? error.message : "Что-то пошло не так!",
         });
         console.error('Ошибка при удалении продукта:', error);
-        throw error;
       } finally {
         isLoadingStore.set(false);
       }

@@ -15,6 +15,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { useInventoryStore } from '~/stores/inventory';
 
 // Объявление пропсов
 const props = defineProps<{
@@ -27,6 +28,9 @@ const emit = defineEmits<{
   (event: 'update:modelValue', value: string): void;
 }>();
 
+// Подключение Pinia store
+const inventoryStore = useInventoryStore();
+
 // Локальное значение для v-model
 const internalValue = ref(props.modelValue);
 
@@ -38,11 +42,11 @@ watch(
     }
 );
 
-// Следим за изменением локального значения и эмитим событие
 watch(
     () => internalValue.value,
     (newValue) => {
       emit('update:modelValue', newValue);
+      inventoryStore.setSelectedProductType(newValue); // Обновляем состояние в Pinia
     }
 );
 </script>

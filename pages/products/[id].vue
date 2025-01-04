@@ -92,12 +92,8 @@
       </div>
     </div>
 
-    <div v-if="error" class="alert alert-danger">
-      {{ error }}
-    </div>
-
-    <button type="submit" class="btn btn-primary" :disabled="loading">
-      {{ loading ? $t('common.loading') : $t('products.edit.submit') }}
+    <button type="submit" class="btn btn-primary">
+      {{ $t('products.edit.submit') }}
     </button>
   </form>
 </template>
@@ -141,7 +137,6 @@ const handleSubmit = async () => {
       order: 0,
       date: new Date().toISOString(),
     };
-    console.log('Обновляем продукт:', product);
     await store.updateProduct(product.id, product);
   } catch {
     console.log('Error updating product');

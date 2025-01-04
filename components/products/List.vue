@@ -20,8 +20,8 @@
             :key="currentPage"
             class="animate__animated animate__fadeIn"
         >
-        <tr v-for="product in paginatedProducts" :key="product.id">
-          <td>{{ product.serialNumber }}</td>
+        <tr v-for="product in paginatedProducts" :key="product.id" class="table-row">
+          <td class="wrap-text">{{ product.serialNumber }}</td>
           <td>
             <img
                 v-if="product.photo"
@@ -30,13 +30,13 @@
                 class="product-thumbnail"
             />
           </td>
-          <td>{{ product.title }}</td>
-          <td>{{ product.type }}</td>
-          <td>{{ product.specification }}</td>
-          <td v-if="product.guarantee">
+          <td class="wrap-text">{{ product.title }}</td>
+          <td class="wrap-text">{{ product.type }}</td>
+          <td class="wrap-text">{{ product.specification }}</td>
+          <td v-if="product.guarantee" class="wrap-text">
             {{ formatDate(product.guarantee.start) }} - {{ formatDate(product.guarantee.end) }}
           </td>
-          <td v-else>-</td>
+          <td v-else class="wrap-text">-</td>
           <td>
             <template v-if="product.price && product.price.length">
               <div v-for="price in product.price" :key="price.symbol" class="d-flex flex-column my-2">
@@ -45,7 +45,7 @@
               </div>
             </template>
           </td>
-          <td>{{ formatDate(product.date) }}</td>
+          <td class="wrap-text">{{ formatDate(product.date) }}</td>
           <td>
             <NuxtLink :to="{ path: `/products/${product.id}` }">
               <i class="bi bi-pencil"></i>
@@ -53,6 +53,7 @@
             <i class="bi bi-trash3 text-danger mx-2" @click="deleteProduct(product.id)"></i>
           </td>
         </tr>
+
         </tbody>
 
       </table>
@@ -130,9 +131,27 @@
     </nav>
 
     <div class="charts-container">
-      <canvas id="priceChart"></canvas>
-      <canvas id="categoryChart"></canvas>
+      <!-- Графики -->
+      <div class="charts-container">
+        <ProductsChartsDisplay
+            chartId="priceChart"
+            chartType="bar"
+            :labels="priceChartLabels"
+            :data="priceChartData"
+            :backgroundColors="priceChartColors"
+            :borderColors="priceChartBorderColors"
+            :options="priceChartOptions"
+        />
+        <ProductsChartsDisplay
+            chartId="categoryChart"
+            chartType="pie"
+            :labels="categoryChartLabels"
+            :data="categoryChartData"
+            :backgroundColors="categoryChartColors"
+            :borderColors="categoryChartBorderColors"
+        />
     </div>
+  </div>
   </div>
 </template>
 
@@ -140,94 +159,42 @@
 import { ref, computed, onMounted } from 'vue';
 import { format } from 'date-fns';
 import { useInventoryStore } from '~/stores/inventory';
-import Chart from 'chart.js/auto';
 
 const store = useInventoryStore();
 const itemsPerPage = ref(2);
 const currentPage = ref(1);
 
-const createPriceChart = () => {
-  const products = store.products;
-  const labels = products.map((product) => product.title);
-  const data = products.map((product) => {
-    return product.price?.[0]?.value || 0;
-  });
-
-  new Chart(document.getElementById('priceChart') as HTMLCanvasElement, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        {
-          label: 'Price USD',
-          data,
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1,
-        },
-      ],
+const priceChartLabels = ref<string[]>([]);
+const priceChartData = ref<number[]>([]);
+const priceChartColors = ref<string[]>(['rgba(75, 192, 192, 0.2)']);
+const priceChartBorderColors = ref<string[]>(['rgba(75, 192, 192, 1)']);
+const priceChartOptions = {
+  responsive: true,
+  scales: {
+    y: {
+      beginAtZero: true,
     },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-    },
-  });
+  },
 };
 
-const createCategoryChart = () => {
-  const products = store.products;
-  const categoryCounts = products.reduce((acc, product) => {
-    acc[product.type] = (acc[product.type] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
+const categoryChartLabels = ref<string[]>([]);
+const categoryChartData = ref<number[]>([]);
+const categoryChartColors = ref<string[]>([
+  'rgba(255, 99, 132, 0.2)',
+  'rgba(54, 162, 235, 0.2)',
+  'rgba(255, 206, 86, 0.2)',
+]);
+const categoryChartBorderColors = ref<string[]>([
+  'rgba(255, 99, 132, 1)',
+  'rgba(54, 162, 235, 1)',
+  'rgba(255, 206, 86, 1)',
+]);
 
-  const labels = Object.keys(categoryCounts);
-  const data = Object.values(categoryCounts);
+const selectedProductType = computed(() => store.selectedProductType);
 
-  new Chart(document.getElementById('categoryChart') as HTMLCanvasElement, {
-    type: 'pie',
-    data: {
-      labels,
-      datasets: [
-        {
-          label: 'Categories',
-          data,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-          ],
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-    },
-  });
-};
-
-onMounted(() => {
-  store.fetchProducts().then(() => {
-    createPriceChart();
-    createCategoryChart();
-  });
-});
-
-const products = computed(() => store.products);
+const products = computed(() => store.products.filter((product) => {
+  return !selectedProductType.value || product.type === selectedProductType.value;
+}));
 
 const totalPages = computed(() => Math.ceil(products.value.length / itemsPerPage.value));
 const paginatedProducts = computed(() => {
@@ -254,9 +221,28 @@ const formatDate = (date: string) => {
 const deleteProduct = (id: string) => {
   store.deleteProduct(id);
 };
+
+onMounted(() => {
+  store.fetchProducts().then(() => {
+    const products = store.products;
+
+    // Prepare data for price chart
+    priceChartLabels.value = products.map((product) => product.title);
+    priceChartData.value = products.map((product) => product.price?.[0]?.value || 0);
+
+    // Prepare data for category chart
+    const categoryCounts = products.reduce((acc, product) => {
+      acc[product.type] = (acc[product.type] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    categoryChartLabels.value = Object.keys(categoryCounts);
+    categoryChartData.value = Object.values(categoryCounts);
+  });
+});
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* Десктопная версия */
 .desktop-view {
   display: block;
@@ -272,6 +258,9 @@ const deleteProduct = (id: string) => {
   border-radius: 4px;
   padding: 1rem;
   margin-bottom: 1rem;
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .product-thumbnail {
@@ -282,7 +271,14 @@ const deleteProduct = (id: string) => {
 }
 
 .product-details {
-  margin-top: 0.5rem;
+  margin: 0.5rem 0;
+  line-height: 1.5;
+  font: {
+    size: 1rem;
+    weight: 400;
+  };
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .product-actions {
@@ -325,12 +321,26 @@ const deleteProduct = (id: string) => {
   margin: 2rem 0;
 }
 
-#categoryChart {
-  max-width: 400px;
-  max-height: 400px;
+.wrap-text {
+  word-break: break-word; /* Перенос длинных слов */
+  white-space: normal; /* Разрешить перенос строк */
+  overflow-wrap: anywhere; /* Перенос текста, если он не умещается */
 }
 
-canvas {
-  max-width: 100%;
+th {
+  font: {
+    size: 1rem;
+    weight: 500;
+  }
 }
+
+td {
+  min-width: 90px;
+  font: {
+    size: 0.9rem;
+    weight: 400;
+  }
+  color: #4d4c4c;
+}
+
 </style>
