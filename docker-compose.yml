@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  nuxt-app:
+    build:
+      context: .
+    ports:
+      - "8080:8080"  # Nuxt.js доступен на порту 3000
+    working_dir: /app
+    environment:
+      - VITE_WEBSOCKET_URL=${VITE_WEBSOCKET_URL}
+      - NODE_ENV=production
+      - FIREBASE_API_KEY=${FIREBASE_API_KEY}
+      - FIREBASE_AUTH_DOMAIN=${FIREBASE_AUTH_DOMAIN}
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
+      - FIREBASE_STORAGE_BUCKET=${FIREBASE_STORAGE_BUCKET}
+      - FIREBASE_MESSAGING_SENDER_ID=${FIREBASE_MESSAGING_SENDER_ID}
+      - FIREBASE_APP_ID=${FIREBASE_APP_ID}
+    volumes:
+      - .:/app
+    command: [ "npm", "run", "start" ]
+
+  websocket-server:
+    build:
+      context: .
+    ports:
+      - "3003:3003"
+    working_dir: /app
+    command: [ "node", "server.js" ]

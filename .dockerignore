@@ -1,0 +1,26 @@
+# Dependencies
+node_modules
+npm-debug.log
+
+# Build output
+.nuxt
+.output
+dist
+
+# Environment files
+.env
+.env.*
+
+# Version control
+.git
+.gitignore
+
+# IDE files
+.idea
+.vscode
+
+# Other
+README.md
+Dockerfile
+docker-compose.yml
+*.log

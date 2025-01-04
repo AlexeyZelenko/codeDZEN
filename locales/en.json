@@ -1,0 +1,56 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "close": "Close"
+  },
+  "orders": {
+    "title": "Orders",
+    "details": "Order Details",
+    "products": "Products",
+    "created": "Created",
+    "total": "Total",
+    "deleteConfirm": "Are you sure you want to delete this order?",
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
+  "products": {
+    "title": "Products",
+    "filterByType": "Filter by Type",
+    "allTypes": "All Types",
+    "serialNumber": "Serial Number",
+    "photo": "Photo",
+    "type": "Type",
+    "specification": "Specification",
+    "guarantee": {
+      "title": "Guarantee Period",
+      "start": "Start Date",
+      "end": "End Date"
+    },
+    "price": "Price",
+    "priceUSD": "Price (USD)",
+    "priceUAH": "Price (UAH)",
+    "date": "Date Added",
+    "edit": {
+        "title": "Edit Product",
+        "submit": "Update Product"
+    },
+    "add": {
+      "title": "Add New Product",
+      "new": "Add Product",
+      "submit": "Add Product"
+    },
+    "empty": "No products found",
+    "actions": {
+      "title": "Actions",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "sideNav": {
+    "products": "Products",
+    "orders": "Orders",
+    "closeMenu": "Close Menu",
+    "openMenu": "Open Menu"
+  }
+}

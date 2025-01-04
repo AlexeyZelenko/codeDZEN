@@ -1,0 +1,49 @@
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
+
+.top-menu {
+  background: #fff;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-menu {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-right: 1px solid #dee2e6;
+  height: 100vh;
+}
+
+.order-item {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.order-item:hover {
+  background: #f8f9fa;
+}
+
+.order-details {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Animate.css custom animations */
+.animate__fadeIn {
+  animation-duration: 0.5s;
+}
+
+.animate__fadeInLeft,
+.animate__fadeInRight,
+.animate__fadeOutLeft,
+.animate__fadeOutRight {
+  animation-duration: 0.3s;
+}

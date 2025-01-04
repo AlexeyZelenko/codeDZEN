@@ -1,0 +1,28 @@
+<template>
+  <div class="language-switcher">
+    <button
+        v-for="locale in availableLocales"
+        :key="locale.code"
+        @click="switchLanguage(locale.code)"
+        class="language-switcher__button"
+        :class="{ active: currentLocale === locale.code }"
+    >
+      {{ locale.name }}
+    </button>
+  </div>
+</template>
+
+
+<script setup lang="ts">
+const { locale } = useI18n()
+
+const currentLocale = computed(() => locale.value)
+const availableLocales = [
+  { code: 'en', name: 'EN' },
+  { code: 'uk', name: 'UA' }
+]
+
+const switchLanguage = (code: string) => {
+  locale.value = code
+}
+</script>
