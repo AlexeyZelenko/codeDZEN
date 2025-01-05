@@ -14,6 +14,7 @@ const isLoadingStore = useIsLoadingStore()
         <NuxtPage />
       </main>
     </div>
+    <BottomMenu />
   </div>
 </template>
 

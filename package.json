@@ -32,7 +32,9 @@
     "socket.io-client": "^4.7.4",
     "sweetalert2": "^11.15.3",
     "uuid": "^11.0.3",
-    "ws": "^8.18.0"
+    "ws": "^8.18.0",
+    "@googlemaps/js-api-loader": "^1.16.2",
+    "@types/google.maps": "^3.55.3"
   },
   "devDependencies": {
     "@pinia/testing": "^0.1.7",

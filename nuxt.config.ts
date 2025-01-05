@@ -57,5 +57,10 @@ export default defineNuxtConfig({
     worker: {
       format: 'es'
     }
+  },
+  vue: {
+    compilerOptions: {
+      isCustomElement: tag => tag.startsWith('gmp-') || tag.startsWith('gmpx-')
+    }
   }
 })

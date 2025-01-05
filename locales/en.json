@@ -52,5 +52,6 @@
     "orders": "Orders",
     "closeMenu": "Close Menu",
     "openMenu": "Open Menu"
-  }
+  },
+  "location": "Location"
 }

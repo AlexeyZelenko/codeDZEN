@@ -6,7 +6,7 @@ let heartbeatInterval = null;
 let reconnectAttempts = 0;
 
 export function useWebSocket() {
-    const maxReconnectAttempts = 5;
+    const maxReconnectAttempts = 1;
     const baseReconnectDelay = 5000;
     const maxReconnectDelay = 30000;
 

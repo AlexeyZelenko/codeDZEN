@@ -63,6 +63,15 @@ const menuItems = [
       path: 'M1 2.828v10.344A2 2 0 0 0 3 15h10a2 2 0 0 0 2-1.828V2.828A2 2 0 0 0 13 1H3a2 2 0 0 0-2 1.828z',
     },
   },
+  {
+    label: 'location',
+    path: '/location',
+    icon: {
+      xmlns: 'http://www.w3.org/2000/svg',
+      viewBox: '0 0 16 16',
+      path: 'M1 2.828v10.344A2 2 0 0 0 3 15h10a2 2 0 0 0 2-1.828V2.828A2 2 0 0 0 13 1H3a2 2 0 0 0-2 1.828z',
+    },
+  },
 ];
 
 const route = useRoute();
