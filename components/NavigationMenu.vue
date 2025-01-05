@@ -70,15 +70,24 @@ const isActive = (path: string) => route.path.startsWith(path);
 </script>
 
 <style scoped>
+html,
+body {
+  height: 100%; /* Убедитесь, что html и body занимают всю высоту */
+  margin: 0;
+  overflow: hidden; /* Скрывает прокрутку для основного контента при открытом меню */
+}
 .side-nav {
-  width: 250px;
+  width: 200px;
+  margin-top: 58px;
   background: white;
   border-right: 1px solid #e5e7eb;
-  height: 100vh;
+  height: 100%;
+  position: fixed;
   padding: 2rem 0;
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
+  z-index: 1000;
 }
 
 .side-nav--open {
@@ -136,6 +145,7 @@ const isActive = (path: string) => route.path.startsWith(path);
 
 @media (max-width: 768px) {
   .side-nav {
+    margin-top: 91px;
     transform: translateX(-100%);
     width: 100%;
     height: auto;

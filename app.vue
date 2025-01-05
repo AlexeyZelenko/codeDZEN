@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { useIsLoadingStore } from '~/stores/inventory'
+
+const isLoadingStore = useIsLoadingStore()
+</script>
+
 <template>
   <div class="app">
     <TopMenu class="app__nav"/>
@@ -29,6 +35,13 @@
 .app__content {
   flex: 1;
   padding: 2rem;
+  margin-left: 200px;
+  margin-top: 58px;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    margin-top: 100px;
+  }
 }
 
 body {
@@ -38,8 +51,3 @@ body {
   background: #F9FAFB;
 }
 </style>
-<script setup lang="ts">
-import { useIsLoadingStore } from '~/stores/inventory'
-
-const isLoadingStore = useIsLoadingStore()
-</script>

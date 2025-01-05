@@ -40,12 +40,15 @@ const toggleMenu = () => {
 
 <style scoped>
 .top-menu {
+  width: 100%;
   display: flex;
+  position: fixed;
   justify-content: flex-end;
   align-items: center;
   padding: 0.5rem 1rem;
   background-color: #ffffff;
   border-bottom: 1px solid #dee2e6;
+  z-index: 1001;
 }
 
 .top-menu__left,
