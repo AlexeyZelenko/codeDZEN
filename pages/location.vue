@@ -1,7 +1,9 @@
 <template>
   <div class="container py-4">
-    <h2 class="mb-4">Location Picker</h2>
-    <MapsSimpleLocationPicker />
+    <h2 class="mb-4">Location</h2>
+    <div class="d-flex flex-column">
+      <MapsSimpleLocationPicker />
+    </div>
   </div>
 </template>
 

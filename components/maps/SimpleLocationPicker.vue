@@ -1,33 +1,53 @@
 <template>
   <div class="location-picker">
-    <div class="search-container mb-3">
-      <gmpx-api-loader :key=apiKey solution-channel="GMP_CCS_autocomplete_v4" ></gmpx-api-loader>
-      <gmpx-place-picker
-          id="place-picker"
-          class="form-control"
-          @gmpx-placechange="handlePlaceChange"
-      ></gmpx-place-picker>
-    </div>
-
-    <div class="map-container">
-      <gmp-map
-          :center="mapCenter"
-          :zoom="13"
-          class="map"
-          map-id="c1d0d5ecafe10f2e"
-      >
-        <gmp-advanced-marker
-            v-if="selectedLocation"
-            :position="selectedLocation"
-        ></gmp-advanced-marker>
-      </gmp-map>
-    </div>
+    <GoogleMap
+        :api-key="apiKey"
+        style="width: 100%; height: 500px"
+        :center="center"
+        :zoom="4"
+        mapTypeId="terrain"
+    >
+      <Marker :options="{ position: center }" />
+      <Circle v-for="circle in circles" :options="circle" />
+    </GoogleMap>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue'
-import { useLocalStorage } from '~/composables/useLocalStorage'
+import { ref } from 'vue'
+import { GoogleMap, Marker, Circle } from 'vue3-google-map'
+
+// Центр карти (наприклад, Нью-Йорк)
+const center = { lat: 37.09, lng: -95.712 }
+
+const cities = {
+  chicago: {
+    center: { lat: 41.878, lng: -87.629 },
+    population: 2714856,
+  },
+  newyork: {
+    center: { lat: 40.714, lng: -74.005 },
+    population: 8405837,
+  },
+  losangeles: {
+    center: { lat: 34.052, lng: -118.243 },
+    population: 3857799,
+  },
+  vancouver: {
+    center: { lat: 49.25, lng: -123.1 },
+    population: 603502,
+  },
+}
+
+const circles = Object.keys(cities).map((key) => ({
+  center: cities[key].center,
+  radius: Math.sqrt(cities[key].population) * 100,
+  strokeColor: '#FF0000',
+  strokeOpacity: 0.8,
+  strokeWeight: 2,
+  fillColor: '#FF0000',
+  fillOpacity: 0.35,
+}))
 
 // Получаем ключ API из переменных окружения
 const apiKey = ref(process.env.GOOGLE_MAPS_API_KEY || 'AIzaSyCqfYBHSSatxDzAt9kU3IFFVyTk2BmaZzI')
@@ -36,30 +56,8 @@ interface Location {
   lat: number
   lng: number
 }
-
-const { getValue, setValue } = useLocalStorage()
-const mapCenter = ref<Location>({ lat: 50.4501, lng: 30.5234 }) // По умолчанию Киев
-const selectedLocation = ref<Location | null>(null)
-
-onMounted(() => {
-  const savedLocation = getValue<Location>('selectedLocation')
-  if (savedLocation) {
-    selectedLocation.value = savedLocation
-    mapCenter.value = savedLocation
-  }
-})
-
-const handlePlaceChange = (event: CustomEvent) => {
-  const place = event.target.value
-
-  if(!place) {
-    return
-  }
-  selectedLocation.value = place.location
-  mapCenter.value = place.location
-  setValue('selectedLocation', place.location)
-}
 </script>
+
 
 <style scoped>
 .location-picker {

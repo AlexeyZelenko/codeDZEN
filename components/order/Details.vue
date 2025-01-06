@@ -26,8 +26,9 @@
                 class="rounded mx-1 animate__animated animate__zoomIn"
             />
             <div class="m-2">
-              {{ product.title }} - ${{ product.price.find(p => p.symbol === 'USD')?.value || 0 }} /
-              ₴{{ product.price.find(p => p.symbol === 'UAH')?.value || 0 }}
+              <p v-text="product.title" style="word-wrap: break-word; max-width: 150px"></p>
+              <p>${{ product.price.find(p => p.symbol === 'USD')?.value || 0 }} /
+                ₴{{ product.price.find(p => p.symbol === 'UAH')?.value || 0 }}</p>
             </div>
           </div>
           <div class="mx-2">
