@@ -42,7 +42,7 @@ export default defineNuxtConfig({
     baseURL: '/',
   },
   devServer: {
-    host: '0.0.0.0',
+    host: "localhost",
     port: 3000
   },
   nitro: {
@@ -62,5 +62,6 @@ export default defineNuxtConfig({
     compilerOptions: {
       isCustomElement: tag => tag.startsWith('gmp-') || tag.startsWith('gmpx-')
     }
-  }
+  },
+  plugins: ['~/plugins/apollo.js'],
 })

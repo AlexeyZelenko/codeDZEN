@@ -46,11 +46,16 @@
             </template>
           </td>
           <td class="wrap-text">{{ formatDate(product.date) }}</td>
-          <td>
-            <NuxtLink :to="{ path: `/products/${product.id}` }">
+          <td class="actions-cell">
+            <NuxtLink :to="{ path: `/products/details/${product.id}` }" class="action-btn view-btn">
+              <i class="bi bi-ticket-detailed"></i>
+            </NuxtLink>
+            <NuxtLink :to="{ path: `/products/${product.id}` }" class="action-btn edit-btn">
               <i class="bi bi-pencil"></i>
             </NuxtLink>
-            <i class="bi bi-trash3 text-danger mx-2" @click="deleteProduct(product.id)"></i>
+            <button class="action-btn delete-btn" @click="deleteProduct(product.id)">
+              <i class="bi bi-trash3"></i>
+            </button>
           </td>
         </tr>
 
@@ -93,11 +98,14 @@
           </p>
           <p><strong>{{ $t('products.date') }}:</strong> {{ formatDate(product.date) }}</p>
         </div>
-        <div class="product-actions">
-          <NuxtLink :to="{ path: `/products/${product.id}` }" class="edit-btn">
+        <div class="actions-cell">
+          <NuxtLink :to="{ path: `/products/details/${product.id}` }" class="action-btn view-btn">
+            <i class="bi bi-ticket-detailed"></i>
+          </NuxtLink>
+          <NuxtLink :to="{ path: `/products/${product.id}` }" class="action-btn edit-btn">
             <i class="bi bi-pencil"></i>
           </NuxtLink>
-          <button class="delete-btn" @click="deleteProduct(product.id)">
+          <button class="action-btn delete-btn" @click="deleteProduct(product.id)">
             <i class="bi bi-trash3"></i>
           </button>
         </div>
@@ -341,6 +349,112 @@ td {
     weight: 400;
   }
   color: #4d4c4c;
+}
+
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+
+  th {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  td {
+    padding: 1rem;
+    vertical-align: middle;
+    min-width: 100px;
+
+    &.actions-cell {
+      white-space: nowrap;
+      min-width: 120px;
+
+      .action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        margin: 0 4px;
+        transition: all 0.2s;
+
+        &.view-btn {
+          color: #0d6efd;
+          background-color: rgba(13, 110, 253, 0.1);
+          &:hover { background-color: rgba(13, 110, 253, 0.2); }
+        }
+
+        &.edit-btn {
+          color: #198754;
+          background-color: rgba(25, 135, 84, 0.1);
+          &:hover { background-color: rgba(25, 135, 84, 0.2); }
+        }
+
+        &.delete-btn {
+          color: #dc3545;
+          background-color: rgba(220, 53, 69, 0.1);
+          &:hover { background-color: rgba(220, 53, 69, 0.2); }
+        }
+
+        i {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .wrap-text {
+    max-width: 200px;
+    word-break: break-word;
+    white-space: normal;
+    overflow-wrap: break-word;
+    line-height: 1.4;
+  }
+
+  .product-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  margin: 0 4px;
+  transition: all 0.2s;
+
+  &.view-btn {
+    color: #0d6efd;
+    background-color: rgba(13, 110, 253, 0.1);
+    &:hover { background-color: rgba(13, 110, 253, 0.2); }
+  }
+
+  &.edit-btn {
+    color: #198754;
+    background-color: rgba(25, 135, 84, 0.1);
+    &:hover { background-color: rgba(25, 135, 84, 0.2); }
+  }
+
+  &.delete-btn {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+    &:hover { background-color: rgba(220, 53, 69, 0.2); }
+  }
+
+  i {
+    font-size: 1rem;
+  }
 }
 
 </style>
