@@ -1,6 +1,9 @@
 <template>
   <div class="container-fluid px-4 py-3">
-    <div v-if="loading" class="text-center py-5 animate__animated animate__fadeIn">
+    <div
+      v-if="loading"
+      class="text-center py-5 animate__animated animate__fadeIn"
+    >
       <div class="spinner-grow text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
@@ -11,16 +14,19 @@
       Error loading product details
     </div>
 
-    <div v-else-if="productData" class="animate__animated animate__fadeIn animate__faster">
+    <div
+      v-else-if="productData"
+      class="animate__animated animate__fadeIn animate__faster"
+    >
       <div class="card shadow border-0 overflow-hidden">
         <div class="row g-0">
           <div class="col-lg-5 col-md-6">
             <div class="product-image-container">
               <img
-                  v-if="productData.photo"
-                  :src="productData.photo"
-                  :alt="productData.title"
-                  class="product-image animate__animated animate__fadeIn"
+                v-if="productData.photo"
+                :src="productData.photo"
+                :alt="productData.title"
+                class="product-image animate__animated animate__fadeIn"
               />
               <div v-else class="placeholder-image">
                 <i class="bi bi-image text-muted"></i>
@@ -72,11 +78,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { useQuery } from '@vue/apollo-composable';
-import { gql } from '@apollo/client/core';
-import { useRoute, useRouter } from 'vue-router';
-import { useIsLoadingStore } from '~/stores/inventory';
+import { computed, onMounted } from "vue";
+import { useQuery } from "@vue/apollo-composable";
+import { gql } from "@apollo/client/core";
+import { useRoute, useRouter } from "vue-router";
+import { useIsLoadingStore } from "~/stores/inventory";
 
 const isLoadingStore = useIsLoadingStore();
 const route = useRoute();
@@ -104,17 +110,17 @@ const productData = computed(() => result.value?.getProduct);
 
 const formatDate = (date: string) => {
   /* eslint no-lonely-if: ["off"] */
-  if (!date) return '-';
+  if (!date) return "-";
   try {
     return new Date(date).toLocaleDateString();
   } catch {
-    return '-';
+    return "-";
   }
 };
 
 // Логика для обработки ошибок
 if (error.value) {
-  console.error('Error fetching product:', error.value);
+  console.error("Error fetching product:", error.value);
 }
 
 onMounted(async () => {
@@ -122,7 +128,7 @@ onMounted(async () => {
 });
 
 const goBack = () => {
-  router.push('/products');
+  router.push("/products");
 };
 </script>
 

@@ -1,26 +1,36 @@
 <template>
   <nav :class="['side-nav', { 'side-nav--open': isOpen }]">
     <div class="side-nav__user">
-      <svg class="side-nav__toggle bi bi-x-lg" @click="toggleMenu" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+      <svg
+        class="side-nav__toggle bi bi-x-lg"
+        @click="toggleMenu"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
+        />
       </svg>
       <img :src="userAvatar" alt="User avatar" class="side-nav__avatar" />
     </div>
     <ul v-if="menuItems.length" class="side-nav__menu">
       <li v-for="item in menuItems" :key="item.path">
         <NuxtLink
-            :to="item.path"
-            class="side-nav__link"
-            :class="{ 'side-nav__link--active': isActive(item.path) }"
-            :aria-current="isActive(item.path) ? 'page' : null"
+          :to="item.path"
+          class="side-nav__link"
+          :class="{ 'side-nav__link--active': isActive(item.path) }"
+          :aria-current="isActive(item.path) ? 'page' : null"
         >
           <span class="side-nav__icon">
             <svg
-                v-if="item.icon"
-                :xmlns="item.icon.xmlns"
-                :viewBox="item.icon.viewBox"
-                fill="currentColor"
-                class="bi bi-icon"
+              v-if="item.icon"
+              :xmlns="item.icon.xmlns"
+              :viewBox="item.icon.viewBox"
+              fill="currentColor"
+              class="bi bi-icon"
             >
               <path :d="item.icon.path" />
             </svg>
@@ -33,11 +43,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
-import {useInventoryStore} from '~/stores/inventory'
+import { ref } from "vue";
+import { useRoute } from "vue-router";
+import { useInventoryStore } from "~/stores/inventory";
 
-const userAvatar = ref('/default-avatar.png');
+const userAvatar = ref("/default-avatar.png");
 
 const store = useInventoryStore();
 const isOpen = computed(() => store.isOpenMenu);
@@ -46,30 +56,30 @@ const toggleMenu = () => {
 };
 const menuItems = [
   {
-    label: 'sideNav.products',
-    path: '/products',
+    label: "sideNav.products",
+    path: "/products",
     icon: {
-      xmlns: 'http://www.w3.org/2000/svg',
-      viewBox: '0 0 16 16',
-      path: 'M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0z',
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 16 16",
+      path: "M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0z",
     },
   },
   {
-    label: 'sideNav.orders',
-    path: '/orders',
+    label: "sideNav.orders",
+    path: "/orders",
     icon: {
-      xmlns: 'http://www.w3.org/2000/svg',
-      viewBox: '0 0 16 16',
-      path: 'M1 2.828v10.344A2 2 0 0 0 3 15h10a2 2 0 0 0 2-1.828V2.828A2 2 0 0 0 13 1H3a2 2 0 0 0-2 1.828z',
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 16 16",
+      path: "M1 2.828v10.344A2 2 0 0 0 3 15h10a2 2 0 0 0 2-1.828V2.828A2 2 0 0 0 13 1H3a2 2 0 0 0-2 1.828z",
     },
   },
   {
-    label: 'location',
-    path: '/location',
+    label: "location",
+    path: "/location",
     icon: {
-      xmlns: 'http://www.w3.org/2000/svg',
-      viewBox: '0 0 16 16',
-      path: 'M1 2.828v10.344A2 2 0 0 0 3 15h10a2 2 0 0 0 2-1.828V2.828A2 2 0 0 0 13 1H3a2 2 0 0 0-2 1.828z',
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: "0 0 16 16",
+      path: "M1 2.828v10.344A2 2 0 0 0 3 15h10a2 2 0 0 0 2-1.828V2.828A2 2 0 0 0 13 1H3a2 2 0 0 0-2 1.828z",
     },
   },
 ];

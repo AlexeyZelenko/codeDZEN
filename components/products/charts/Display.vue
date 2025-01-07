@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch, ref } from 'vue';
-import Chart from 'chart.js/auto';
+import { onMounted, watch, ref } from "vue";
+import Chart from "chart.js/auto";
 
 const props = defineProps({
   chartId: {

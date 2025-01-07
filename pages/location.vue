@@ -8,11 +8,11 @@
 </template>
 
 <script setup>
-import { useIsLoadingStore } from '~/stores/inventory'
+import { useIsLoadingStore } from "~/stores/inventory";
 
-const isLoadingStore = useIsLoadingStore()
+const isLoadingStore = useIsLoadingStore();
 
 onMounted(() => {
-  isLoadingStore.set(false)
-})
+  isLoadingStore.set(false);
+});
 </script>

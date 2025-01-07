@@ -2,22 +2,22 @@
   <section class="order">
     <!-- Order Item -->
     <div
-        class="order-item mb-3 border rounded animate__animated"
-        :class="{
-        'animate__pulse': isHovered,
-        'animate__fadeOutLeft': isDeleting
+      class="order-item mb-3 border rounded animate__animated"
+      :class="{
+        animate__pulse: isHovered,
+        animate__fadeOutLeft: isDeleting,
       }"
-        @click="$emit('view-order', order)"
-        @mouseover="isHovered = true"
-        @mouseleave="isHovered = false"
+      @click="$emit('view-order', order)"
+      @mouseover="isHovered = true"
+      @mouseleave="isHovered = false"
     >
       <div class="order-item__details">
         <div class="order-item__data d-flex flex-column p-3">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="h5 mb-0">{{ order.name }}</h3>
             <button
-                class="btn btn-danger btn-sm"
-                @click.stop="deleteOrder(order)"
+              class="btn btn-danger btn-sm"
+              @click.stop="deleteOrder(order)"
             >
               Delete
             </button>
@@ -29,17 +29,18 @@
           <div class="text-muted small">
             <div>
               <span class="fw-bold">Created:</span>
-              {{ formatDate(order.date, 'dd MMM yyyy') }}
+              {{ formatDate(order.date, "dd MMM yyyy") }}
               /
-              {{ formatDate(order.date, 'yyyy-MM-dd HH:mm') }}
+              {{ formatDate(order.date, "yyyy-MM-dd HH:mm") }}
             </div>
             <div>
               <span class="fw-bold">Products:</span> {{ order.products.length }}
             </div>
             <div v-if="!loading">
               <span class="fw-bold">Total:</span>
-              ${{ total?.usd.toFixed(2) || '...' }} /
-              ₴{{ total?.uah.toFixed(2) || '...' }}
+              ${{ total?.usd.toFixed(2) || "..." }} / ₴{{
+                total?.uah.toFixed(2) || "..."
+              }}
             </div>
             <div v-else>
               <span>Loading total...</span>
@@ -54,20 +55,20 @@
 
     <!-- Order Details -->
     <OrderDetails
-        v-if="isActive"
-        class="order-details border rounded p-3 mx-2 d-flex flex-column animate__animated animate__fadeInLeft"
-        :order="order"
-        @close="$emit('close-details')"
+      v-if="isActive"
+      class="order-details border rounded p-3 mx-2 d-flex flex-column animate__animated animate__fadeInLeft"
+      :order="order"
+      @close="$emit('close-details')"
     />
   </section>
 </template>
 
 <script setup lang="ts">
-import { format } from 'date-fns';
-import { ref, watch, onMounted } from 'vue';
-import { usePriceWorker } from '~/composables/usePriceWorker';
+import { format } from "date-fns";
+import { ref, watch, onMounted } from "vue";
+import { usePriceWorker } from "~/composables/usePriceWorker";
 
-const emit = defineEmits(['view-order', 'close-details', 'confirm-delete']);
+const emit = defineEmits(["view-order", "close-details", "confirm-delete"]);
 
 // Props
 const props = defineProps({
@@ -80,7 +81,8 @@ const isHovered = ref(false);
 const isDeleting = ref(false);
 
 // Utility Methods
-const formatDate = (date: string, formatStr: string) => format(new Date(date), formatStr);
+const formatDate = (date: string, formatStr: string) =>
+  format(new Date(date), formatStr);
 
 // Price Calculation
 const { calculateTotal, loading } = usePriceWorker();
@@ -88,29 +90,28 @@ const total = ref<{ usd: number; uah: number } | null>(null);
 
 // Watch for changes in the order and calculate the total
 watch(
-    () => props.order,
-    async (newOrder) => {
-      if (newOrder) {
-        try {
-          total.value = await calculateTotal(newOrder);
-        } catch (error) {
-          console.error('Error calculating total:', error);
-        }
+  () => props.order,
+  async (newOrder) => {
+    if (newOrder) {
+      try {
+        total.value = await calculateTotal(newOrder);
+      } catch (error) {
+        console.error("Error calculating total:", error);
       }
-    },
-    { immediate: true }
+    }
+  },
+  { immediate: true },
 );
 
 // Delete Order
 const deleteOrder = (order: any) => {
   isDeleting.value = true;
   setTimeout(() => {
-    emit('confirm-delete', order);
+    emit("confirm-delete", order);
     isDeleting.value = false;
   }, 500);
 };
 </script>
-
 
 <style scoped lang="scss">
 .order {

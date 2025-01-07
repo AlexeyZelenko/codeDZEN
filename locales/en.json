@@ -32,8 +32,8 @@
     "priceUAH": "Price (UAH)",
     "date": "Date Added",
     "edit": {
-        "title": "Edit Product",
-        "submit": "Update Product"
+      "title": "Edit Product",
+      "submit": "Update Product"
     },
     "add": {
       "title": "Add New Product",

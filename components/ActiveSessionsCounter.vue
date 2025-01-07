@@ -6,18 +6,18 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
-import { useWebSocket } from '@/services/websocket'
+import { onMounted, onUnmounted } from "vue";
+import { useWebSocket } from "@/services/websocket";
 
-const { activeSessions, connect, disconnect } = useWebSocket()
+const { activeSessions, connect, disconnect } = useWebSocket();
 
 onMounted(() => {
-  connect()
-})
+  connect();
+});
 
 onUnmounted(() => {
-  disconnect()
-})
+  disconnect();
+});
 </script>
 
 <style scoped>

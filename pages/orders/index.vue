@@ -1,12 +1,12 @@
 <template>
   <div>
     <OrderList
-        :orders="orders"
-        :selected-order="selectedOrder"
-        @view-order="viewOrder"
-        @close-details="closeDetails"
-        @confirm-delete="confirmDelete"
-        @open-create-modal="openCreateOrderModal"
+      :orders="orders"
+      :selected-order="selectedOrder"
+      @view-order="viewOrder"
+      @close-details="closeDetails"
+      @confirm-delete="confirmDelete"
+      @open-create-modal="openCreateOrderModal"
     />
 
     <OrderCreate :products="products" />
@@ -18,24 +18,32 @@
           <div class="modal-header">
             <h5 class="modal-title">Confirm Deletion</h5>
             <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                :disabled="isDeleting"
-                @click="resetButtonState"
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              :disabled="isDeleting"
+              @click="resetButtonState"
             ></button>
           </div>
           <div class="modal-body">
             <div class="my-3">
-              Are you sure you want to delete the order "{{ orderToDelete?.name }}"?
+              Are you sure you want to delete the order "{{
+                orderToDelete?.name
+              }}"?
             </div>
-            <div v-for="(item, index) in orderToDelete?.products" :key="index" class="d-flex">
-              <i class="bi bi-dot text-success fs-1 animate__animated animate__bounce"></i>
+            <div
+              v-for="(item, index) in orderToDelete?.products"
+              :key="index"
+              class="d-flex"
+            >
+              <i
+                class="bi bi-dot text-success fs-1 animate__animated animate__bounce"
+              ></i>
               <NuxtImg
-                  :src="item.photo"
-                  alt="Delete Order"
-                  width="50"
-                  height="50"
+                :src="item.photo"
+                alt="Delete Order"
+                width="50"
+                height="50"
               />
               <div class="ms-3">
                 <h6>{{ item.title }}</h6>
@@ -45,19 +53,19 @@
           </div>
           <div class="modal-footer bg-body-secondary">
             <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-                :disabled="isDeleting"
-                @click="resetButtonState"
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              :disabled="isDeleting"
+              @click="resetButtonState"
             >
               Cancel
             </button>
             <button
-                type="button"
-                class="btn btn-danger"
-                :disabled="isDeleting"
-                @click="deleteOrder"
+              type="button"
+              class="btn btn-danger"
+              :disabled="isDeleting"
+              @click="deleteOrder"
             >
               <span v-if="!isDeleting">
                 <i class="bi bi-trash3"></i>
@@ -99,7 +107,7 @@ const closeDetails = () => {
 
 const openCreateOrderModal = () => {
   const modal = new bootstrap.Modal(
-      document.getElementById("createOrderModal")
+    document.getElementById("createOrderModal"),
   );
   modal.show();
 };
@@ -116,7 +124,7 @@ const deleteOrder = async () => {
     try {
       await store.deleteOrder(orderToDelete.value.id);
       const modal = bootstrap.Modal.getInstance(
-          document.getElementById("deleteModal")
+        document.getElementById("deleteModal"),
       );
       modal.hide();
 

@@ -1,8 +1,7 @@
-import { ref } from 'vue';
-import { useInventoryStore } from '~/stores/inventory';
-import type { Product } from '~/types/inventory';
-import { v4 as uuidv4 } from 'uuid';
-
+import { ref } from "vue";
+import { useInventoryStore } from "~/stores/inventory";
+import type { Product } from "~/types/inventory";
+import { v4 as uuidv4 } from "uuid";
 
 export function useProducts() {
   const loading = ref(false);
@@ -29,8 +28,8 @@ export function useProducts() {
 
       return newProduct;
     } catch (e: any) {
-      console.error('Error creating product:', e.message);
-      error.value = e.message || 'Unknown error';
+      console.error("Error creating product:", e.message);
+      error.value = e.message || "Unknown error";
       throw e;
     } finally {
       loading.value = false;

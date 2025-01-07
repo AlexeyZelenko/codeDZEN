@@ -3,8 +3,8 @@
 </template>
 
 <script setup>
-const router = useRouter()
+const router = useRouter();
 onMounted(() => {
-  router.push('/orders')
-})
+  router.push("/orders");
+});
 </script>

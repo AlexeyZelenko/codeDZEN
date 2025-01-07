@@ -1,30 +1,29 @@
 <template>
   <div class="language-switcher">
     <button
-        v-for="locale in availableLocales"
-        :key="locale.code"
-        @click="switchLanguage(locale.code)"
-        class="language-switcher__button"
-        :class="{ active: currentLocale === locale.code }"
+      v-for="locale in availableLocales"
+      :key="locale.code"
+      @click="switchLanguage(locale.code)"
+      class="language-switcher__button"
+      :class="{ active: currentLocale === locale.code }"
     >
       {{ locale.name }}
     </button>
   </div>
 </template>
 
-
 <script setup lang="ts">
-const { locale } = useI18n()
+const { locale } = useI18n();
 
-const currentLocale = computed(() => locale.value)
+const currentLocale = computed(() => locale.value);
 const availableLocales = [
-  { code: 'en', name: 'EN' },
-  { code: 'uk', name: 'UA' }
-]
+  { code: "en", name: "EN" },
+  { code: "uk", name: "UA" },
+];
 
 const switchLanguage = (code: string) => {
-  locale.value = code
-}
+  locale.value = code;
+};
 </script>
 
 <style scoped>
@@ -61,4 +60,3 @@ const switchLanguage = (code: string) => {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 </style>
-

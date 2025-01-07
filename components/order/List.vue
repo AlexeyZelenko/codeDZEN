@@ -3,27 +3,27 @@
     <h2 class="d-flex align-items-center">
       Orders
       <button
-          class="btn btn-success btn-sm ms-3 rounded-circle"
-          @click="$emit('open-create-modal')"
+        class="btn btn-success btn-sm ms-3 rounded-circle"
+        @click="$emit('open-create-modal')"
       >
         <i class="bi bi-plus-lg"></i>
       </button>
     </h2>
     <div class="order-list" ref="orderListRef">
       <div
-          v-for="(order, index) in orders"
-          :key="order.id"
-          :ref="el => (orderRefs[index] = el)"
-          class="order-lazy-item"
+        v-for="(order, index) in orders"
+        :key="order.id"
+        :ref="(el) => (orderRefs[index] = el)"
+        class="order-lazy-item"
       >
         <transition name="fade">
           <OrderItem
-              v-if="visibleOrders.has(order.id)"
-              :order="order"
-              :isActive="selectedOrder?.id === order.id"
-              @view-order="$emit('view-order', order)"
-              @close-details="$emit('close-details')"
-              @confirm-delete="$emit('confirm-delete', order)"
+            v-if="visibleOrders.has(order.id)"
+            :order="order"
+            :isActive="selectedOrder?.id === order.id"
+            @view-order="$emit('view-order', order)"
+            @close-details="$emit('close-details')"
+            @confirm-delete="$emit('confirm-delete', order)"
           />
         </transition>
       </div>
@@ -32,7 +32,14 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onUpdated, onUnmounted, nextTick } from 'vue';
+import {
+  ref,
+  reactive,
+  onMounted,
+  onUpdated,
+  onUnmounted,
+  nextTick,
+} from "vue";
 
 // Props
 const props = defineProps({
@@ -63,7 +70,7 @@ const handleIntersect = (entries) => {
 };
 
 const initObserver = () => {
-  if ('IntersectionObserver' in window && orderListRef.value) {
+  if ("IntersectionObserver" in window && orderListRef.value) {
     observer = new IntersectionObserver(handleIntersect, { threshold: 0.3 });
     orderRefs.value.forEach((el, index) => {
       if (el) {
@@ -72,7 +79,7 @@ const initObserver = () => {
       }
     });
   } else {
-    console.warn('IntersectionObserver not supported, falling back.');
+    console.warn("IntersectionObserver not supported, falling back.");
     props.orders.forEach((order) => visibleOrders.add(order.id));
   }
 };

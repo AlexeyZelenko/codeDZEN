@@ -1,10 +1,7 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <footer class="footer">
-<!--    <MapsFooter />-->
     <div class="container">
       <p class="text-center text-muted">
         &copy; {{ new Date().getFullYear() }} - Test Project
@@ -23,5 +20,4 @@
   bottom: 0;
   width: 100%;
 }
-
 </style>

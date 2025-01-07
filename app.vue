@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { useIsLoadingStore } from '~/stores/inventory'
+import { useIsLoadingStore } from "~/stores/inventory";
 
-const isLoadingStore = useIsLoadingStore()
+const isLoadingStore = useIsLoadingStore();
 </script>
 
 <template>
   <div class="app">
-    <TopMenu class="app__nav"/>
+    <TopMenu class="app__nav" />
     <div class="app__container">
       <NavigationMenu />
-      <Loader v-if="isLoadingStore.isLoading"/>
+      <Loader v-if="isLoadingStore.isLoading" />
       <main v-show="!isLoadingStore.isLoading" class="app__content">
         <NuxtPage />
       </main>
@@ -21,7 +21,7 @@ const isLoadingStore = useIsLoadingStore()
 <style>
 .app {
   min-height: 100vh;
-  background: #F9FAFB;
+  background: #f9fafb;
 }
 
 .app__nav {
@@ -48,8 +48,13 @@ const isLoadingStore = useIsLoadingStore()
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   color: #111827;
-  background: #F9FAFB;
+  background: #f9fafb;
 }
 </style>

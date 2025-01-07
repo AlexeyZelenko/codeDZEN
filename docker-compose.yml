@@ -1,11 +1,11 @@
-version: '3.8'
+version: "3.8"
 
 services:
   nuxt-app:
     build:
       context: .
     ports:
-      - "8080:8080"  # Nuxt.js доступен на порту 3000
+      - "8080:8080" # Nuxt.js доступен на порту 3000
     working_dir: /app
     environment:
       - VITE_WEBSOCKET_URL=${VITE_WEBSOCKET_URL}
@@ -19,7 +19,7 @@ services:
       - GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
     volumes:
       - .:/app
-    command: [ "npm", "run", "start" ]
+    command: ["npm", "run", "start"]
 
   websocket-server:
     build:
@@ -27,4 +27,4 @@ services:
     ports:
       - "3003:3003"
     working_dir: /app
-    command: [ "node", "server.js" ]
+    command: ["node", "server.js"]

@@ -2,16 +2,16 @@
   <header class="top-menu">
     <button class="top-menu__toggle" @click="toggleMenu">
       <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          fill="currentColor"
-          class="bi bi-list"
-          viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        fill="currentColor"
+        class="bi bi-list"
+        viewBox="0 0 16 16"
       >
         <path
-            fill-rule="evenodd"
-            d="M2.5 12.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm0-5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm0-5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11z"
+          fill-rule="evenodd"
+          d="M2.5 12.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm0-5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm0-5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11z"
         />
       </svg>
     </button>
@@ -26,11 +26,11 @@
 </template>
 
 <script setup lang="ts">
-import CurrentDateTime from './CurrentDateTime.vue'
-import ActiveSessionsCounter from './ActiveSessionsCounter.vue'
-import {useInventoryStore} from '~/stores/inventory'
+import CurrentDateTime from "./CurrentDateTime.vue";
+import ActiveSessionsCounter from "./ActiveSessionsCounter.vue";
+import { useInventoryStore } from "~/stores/inventory";
 
-const store = useInventoryStore()
+const store = useInventoryStore();
 const isOpen = computed(() => store.isOpenMenu);
 
 const toggleMenu = () => {

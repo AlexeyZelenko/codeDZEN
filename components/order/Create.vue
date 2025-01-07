@@ -1,52 +1,60 @@
 <template>
-  <div class="modal fade animate__animated animate__fadeIn" id="createOrderModal" tabindex="-1">
+  <div
+    class="modal fade animate__animated animate__fadeIn"
+    id="createOrderModal"
+    tabindex="-1"
+  >
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Create New Order</h5>
           <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              @click="resetButtonState"
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            @click="resetButtonState"
           ></button>
         </div>
         <form @submit.prevent="createOrder" class="p-3">
           <div class="mb-3">
             <label for="orderName" class="form-label">Order Name</label>
             <input
-                id="orderName"
-                v-model="newOrder.name"
-                type="text"
-                class="form-control"
-                placeholder="Enter order name"
-                required
+              id="orderName"
+              v-model="newOrder.name"
+              type="text"
+              class="form-control"
+              placeholder="Enter order name"
+              required
             />
           </div>
           <div class="mb-3">
-            <label for="orderDescription" class="form-label">Order Description</label>
+            <label for="orderDescription" class="form-label"
+              >Order Description</label
+            >
             <textarea
-                id="orderDescription"
-                v-model="newOrder.description"
-                class="form-control"
-                placeholder="Enter order description"
-                rows="3"
+              id="orderDescription"
+              v-model="newOrder.description"
+              class="form-control"
+              placeholder="Enter order description"
+              rows="3"
             ></textarea>
           </div>
           <div class="mb-3">
-            <label for="selectProducts" class="form-label">Select Products</label>
+            <label for="selectProducts" class="form-label"
+              >Select Products</label
+            >
             <div id="selectProducts" class="product-checkbox-list">
               <div
-                  v-for="product in products"
-                  :key="product.id"
-                  class="form-check"
+                v-for="product in products"
+                :key="product.id"
+                class="form-check"
               >
                 <input
-                    type="checkbox"
-                    class="form-check-input"
-                    :id="`product-${product.id}`"
-                    :value="product"
-                    v-model="newOrder.products"
+                  type="checkbox"
+                  class="form-check-input"
+                  :id="`product-${product.id}`"
+                  :value="product"
+                  v-model="newOrder.products"
                 />
                 <label class="form-check-label" :for="`product-${product.id}`">
                   {{ product.title }}
@@ -54,11 +62,7 @@
               </div>
             </div>
           </div>
-          <button
-              type="submit"
-              class="btn btn-primary"
-              :disabled="isLoading"
-          >
+          <button type="submit" class="btn btn-primary" :disabled="isLoading">
             <span v-if="!isLoading">Create Order</span>
             <span v-else>
               <i class="spinner-border spinner-border-sm" role="status"></i>
@@ -72,18 +76,18 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useInventoryStore } from '~/stores/inventory';
+import { ref } from "vue";
+import { useInventoryStore } from "~/stores/inventory";
 
 const store = useInventoryStore();
-const emit = defineEmits(['create-order']);
+const emit = defineEmits(["create-order"]);
 const props = defineProps({
   products: Array,
 });
 
 const newOrder = ref({
-  name: '',
-  description: '',
+  name: "",
+  description: "",
   products: [],
 });
 
@@ -97,12 +101,14 @@ const createOrder = async () => {
       date: new Date().toISOString(),
     };
     await store.addOrder(order);
-    emit('create-order', order);
-    newOrder.value = { name: '', description: '', products: [] };
-    const modal = bootstrap.Modal.getInstance(document.getElementById('createOrderModal'));
+    emit("create-order", order);
+    newOrder.value = { name: "", description: "", products: [] };
+    const modal = bootstrap.Modal.getInstance(
+      document.getElementById("createOrderModal"),
+    );
     modal.hide();
   } catch (error) {
-    console.error('Error creating order:', error);
+    console.error("Error creating order:", error);
   } finally {
     isLoading.value = false;
   }
