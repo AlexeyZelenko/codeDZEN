@@ -11,9 +11,16 @@ export default defineConfig({
             exclude: [
                 'node_modules/**',
                 '.nuxt/**',
-                'coverage/**'
+                'coverage/**',
+                'tests/e2e/**'
             ]
-        }
+        },
+        exclude: [
+            'node_modules/**',
+            '.nuxt/**',
+            'coverage/**',
+            'tests/e2e/**'
+        ]
     },
     resolve: {
         alias: {

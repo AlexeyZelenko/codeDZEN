@@ -3,27 +3,32 @@ import { useInventoryStore } from '~/stores/inventory';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { addDoc } from 'firebase/firestore';
 
-// Mock Firebase Firestore methods
+// Мокаем Firestore
 vi.mock('firebase/firestore', () => ({
   addDoc: vi.fn(),
   collection: vi.fn(),
-}));
-vi.mock('~/utils/firebase', () => ({
-  db: {},
+  getFirestore: vi.fn().mockReturnValue({}),
 }));
 
-// Mock SweetAlert
+// Мокаем SweetAlert
 vi.mock('sweetalert2', () => ({
   default: {
     fire: vi.fn(),
   },
 }));
 
+// Мокаем useRouter из Vue Router
+vi.mock('vue-router', () => ({
+  useRouter: vi.fn().mockReturnValue({
+    push: vi.fn(), // Мокаем метод push
+  }),
+}));
+
 describe('Inventory Store', () => {
   let inventoryStore: ReturnType<typeof useInventoryStore>;
 
   beforeEach(() => {
-    // Initialize Pinia and store
+    // Инициализация Pinia и хранилища
     setActivePinia(createPinia());
     inventoryStore = useInventoryStore();
   });
@@ -31,16 +36,16 @@ describe('Inventory Store', () => {
   it('should add a product', async () => {
     const mockProduct = { name: 'Test Product', type: 'Monitors' };
 
-    // Mock Firestore `addDoc` response
-    (addDoc as unknown as jest.Mock).mockResolvedValue({ id: '123' });
+    // Мокаем ответ addDoc
+    addDoc.mockResolvedValue({ id: '123' });
 
     const newProduct = await inventoryStore.addProduct(mockProduct);
 
-    // Verify the product is added
+    // Проверяем, что продукт был добавлен
     expect(newProduct).toEqual({ ...mockProduct, id: '123' });
     expect(inventoryStore.products).toContainEqual(newProduct);
 
-    // Verify SweetAlert was called
+    // Проверяем, что был вызван SweetAlert
     const Swal = await import('sweetalert2');
     expect(Swal.default.fire).toHaveBeenCalledWith(
         expect.objectContaining({ title: 'Продукт успешно добавлен.' })

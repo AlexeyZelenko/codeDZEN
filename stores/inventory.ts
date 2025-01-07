@@ -46,9 +46,6 @@ export const useInventoryStore = defineStore('inventory', {
           timer: 1500
         });
 
-        const router = useRouter();
-        await router.push('/products');
-
         return newProduct;
       } catch (error) {
         Swal.fire({
