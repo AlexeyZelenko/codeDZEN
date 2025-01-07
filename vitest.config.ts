@@ -20,7 +20,8 @@ export default defineConfig({
             '.nuxt/**',
             'coverage/**',
             'tests/e2e/**'
-        ]
+        ],
+        reporters: ['default'],
     },
     resolve: {
         alias: {
