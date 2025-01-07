@@ -1,11 +1,9 @@
 import { WebSocketServer } from 'ws';
 import express from 'express';
 import morgan from 'morgan';
-import dotenv from 'dotenv';
 import { ApolloServer, gql } from 'apollo-server-express';
-import admin from 'firebase-admin';
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { collection, addDoc, getDocs, doc, updateDoc, query, where } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, query, where } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import chalk from 'chalk';
 
@@ -77,7 +75,6 @@ const resolvers = {
         },
         getProduct: async (_, { id }) => {
             console.log(chalk.blue(`Fetching product with ID: ${id}`));
-            const productRef = doc(db, 'products', id);
             const docSnap = await getDocs(query(collection(db, 'products'), where('id', '==', id)));
             if (!docSnap.empty) {
                 return docSnap.docs[0].data();
@@ -91,7 +88,6 @@ const resolvers = {
             try {
                 const docSnap = await getDocs(query(collection(db, 'products'), where('id', '==', id)));
                 if (!docSnap.empty) {
-                    // Обновляем продукт
                     await updateDoc(productRef, updatedData);
                     console.log(chalk.green(`Product with ID ${id} updated successfully.`));
                     return { id, ...updatedData };

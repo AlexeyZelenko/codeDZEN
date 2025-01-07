@@ -1,13 +1,27 @@
-self.addEventListener('message', (e) => {
-    const { type, data } = e.data;
+interface Product {
+    price: { symbol: string; value: number }[];
+}
+
+interface CalculateOrderTotalData {
+    products: Product[];
+}
+
+interface OrderTotal {
+    usd: number;
+    uah: number;
+}
+
+// Обработчик события для Web Worker
+self.addEventListener('message', (e: MessageEvent) => {
+    const { type, data }: { type: string; data: CalculateOrderTotalData } = e.data;
 
     if (type === 'calculateOrderTotal') {
         const { products } = data;
 
         const total = products.reduce(
-            (acc: { usd: number; uah: number }, product: any) => {
-                const priceUSD = product.price.find((p: any) => p.symbol === 'USD')?.value || 0;
-                const priceUAH = product.price.find((p: any) => p.symbol === 'UAH')?.value || 0;
+            (acc: OrderTotal, product: Product) => {
+                const priceUSD = product.price.find((p) => p.symbol === 'USD')?.value || 0;
+                const priceUAH = product.price.find((p) => p.symbol === 'UAH')?.value || 0;
 
                 return {
                     usd: acc.usd + priceUSD,

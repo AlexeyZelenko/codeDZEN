@@ -8,7 +8,7 @@
         mapTypeId="terrain"
     >
       <Marker :options="{ position: center }" />
-      <Circle v-for="circle in circles" :options="circle" />
+      <Circle v-for="(circle, index) in circles" :key="index" :options="circle" />
     </GoogleMap>
   </div>
 </template>

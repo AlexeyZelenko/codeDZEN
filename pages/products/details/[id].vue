@@ -103,6 +103,7 @@ const { result, loading, error } = useQuery(GET_PRODUCT, { id: productId });
 const productData = computed(() => result.value?.getProduct);
 
 const formatDate = (date: string) => {
+  /* eslint no-lonely-if: ["off"] */
   if (!date) return '-';
   try {
     return new Date(date).toLocaleDateString();
